@@ -16,9 +16,16 @@ async function sendBomb() {
       body: JSON.stringify({ pin })
     });
 
+    if (!res.ok) {
+      const error = await res.json();
+      status.textContent = error.error || "Server error.";
+      return;
+    }
+
     const data = await res.json();
     status.textContent = data.message || "Bots launched!";
   } catch (err) {
+    console.error("Fetch error:", err);
     status.textContent = "Error sending bots.";
   }
 }
