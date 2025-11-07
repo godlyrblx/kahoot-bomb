@@ -1,9 +1,11 @@
 async function sendBomb() {
   const pin = document.getElementById("pin").value;
+  const name = document.getElementById("name").value;
+  const amount = document.getElementById("amount").value;
   const status = document.getElementById("status");
 
-  if (!pin) {
-    status.textContent = "Please enter a PIN.";
+  if (!pin || !name || !amount) {
+    status.textContent = "Please fill out all fields.";
     return;
   }
 
@@ -13,14 +15,8 @@ async function sendBomb() {
     const res = await fetch("https://testkahoooot.onrender.com/bomb", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pin })
+      body: JSON.stringify({ pin, name, amount })
     });
-
-    if (!res.ok) {
-      const error = await res.json();
-      status.textContent = error.error || "Server error.";
-      return;
-    }
 
     const data = await res.json();
     status.textContent = data.message || "Bots launched!";
